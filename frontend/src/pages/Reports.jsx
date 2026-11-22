@@ -219,10 +219,7 @@ export default function Reports() {
               </div>
             </div>
 
-            <div className="inline" style={{ marginTop: 16, gap: 8 }}>
-              <Button variant="primary" icon={Download} onClick={exportReport}>
-                Export CSV
-              </Button>
+            <div style={{ marginTop: 16 }}>
               <Button
                 variant="ghost"
                 onClick={() => pushToast(`“${selected.name}” will be delivered to your inbox.`, 'info')}

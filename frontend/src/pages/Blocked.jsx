@@ -169,11 +169,7 @@ export default function Blocked() {
         </div>
       </div>
 
-      <ChartCard
-        title="Blocked requests over time"
-        subtitle="Requests denied by inline controls across the selected window"
-        footer={`${formatNumber(rows.length)} blocked in ${RANGE_MAP[range]?.label?.toLowerCase() ?? 'range'}`}
-      >
+      <ChartCard title="Blocked requests over time">
         <ThreatAreaChart
           data={traffic}
           height={190}

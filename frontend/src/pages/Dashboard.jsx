@@ -19,7 +19,7 @@ import {
   getRecentEvents,
   getSeverityDistribution,
 } from '../data/mock';
-import { formatCompact, formatNumber, relativeTime } from '../lib/format';
+import { formatNumber, relativeTime } from '../lib/format';
 import {
   Badge,
   Button,
@@ -105,7 +105,7 @@ export default function Dashboard() {
           />
         </ChartCard>
 
-        <ChartCard title="Severity distribution" subtitle="All classified threats in range">
+        <ChartCard title="Severity distribution">
           <SeverityDonut data={severity} height={190} />
           <div className="stat-line" style={{ marginTop: 10 }}>
             <span className="muted" style={{ fontSize: 12 }}>
@@ -133,7 +133,6 @@ export default function Dashboard() {
 
         <ChartCard
           title="Recent security events"
-          subtitle="Latest detections requiring analyst attention"
           flush
           actions={
             <Button size="sm" variant="ghost" onClick={() => navigate('/events')}>
@@ -201,32 +200,6 @@ export default function Dashboard() {
           ))}
         </div>
       </ChartCard>
-
-      <div className="grid grid--3">
-        <div className="card">
-          <div className="card__body stack stack--sm">
-            <p className="section-title">Monitored today</p>
-            <p style={{ fontSize: 22, fontWeight: 600 }}>
-              {formatCompact(kpis.find((k) => k.id === 'requests').value)}
-            </p>
-            <p className="record-sub">Requests evaluated across all protected endpoints.</p>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card__body stack stack--sm">
-            <p className="section-title">Active defence layers</p>
-            <p style={{ fontSize: 22, fontWeight: 600 }}>4 / 4</p>
-            <p className="record-sub">Edge WAF, API gateway, identity and rate governor online.</p>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card__body stack stack--sm">
-            <p className="section-title">Analyst queue</p>
-            <p style={{ fontSize: 22, fontWeight: 600 }}>{recent.filter((e) => !reviews[e.id]).length}</p>
-            <p className="record-sub">Recent events still awaiting review in this session.</p>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

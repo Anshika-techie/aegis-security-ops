@@ -124,9 +124,7 @@ export default function Register() {
       <section className="auth-panel">
         <div className="auth-card">
           <div className="auth-card__head">
-            <p className="auth-eyebrow">Create account</p>
             <h2>Set up your workspace</h2>
-            <p>Analyst access is provisioned immediately in this demonstration.</p>
           </div>
 
           {formError ? (
@@ -242,9 +240,15 @@ export default function Register() {
             </div>
             {errors.terms ? <p className="field__error">{errors.terms}</p> : null}
 
-            <Button type="submit" variant="primary" size="lg" block disabled={submitting}>
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              block
+              disabled={submitting}
+              trailingIcon={submitting ? null : ArrowRight}
+            >
               {submitting ? 'Creating account…' : 'Create account'}
-              {!submitting ? <ArrowRight size={15} style={{ marginLeft: 6 }} /> : null}
             </Button>
           </form>
 

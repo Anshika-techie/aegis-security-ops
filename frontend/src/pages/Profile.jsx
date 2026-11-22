@@ -116,14 +116,6 @@ export default function Profile() {
                 <span className="mono">{formatDate(user?.joined ?? new Date())}</span>
               </div>
               <div className="meta-row">
-                <span>Role</span>
-                <span>{isAdmin ? 'Administrator' : 'Security analyst'}</span>
-              </div>
-              <div className="meta-row">
-                <span>Department</span>
-                <span>{user?.department}</span>
-              </div>
-              <div className="meta-row">
                 <span>Workspace</span>
                 <span className="mono">aegis-eu-01</span>
               </div>

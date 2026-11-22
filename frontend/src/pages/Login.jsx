@@ -140,9 +140,7 @@ export default function Login() {
       <section className="auth-panel">
         <div className="auth-card">
           <div className="auth-card__head">
-            <p className="auth-eyebrow">Secure sign in</p>
             <h2>Welcome back</h2>
-            <p>Sign in to your Aegis workspace to continue monitoring.</p>
           </div>
 
           {formError ? (
@@ -201,16 +199,21 @@ export default function Login() {
               </button>
             </div>
 
-            <Button type="submit" variant="primary" size="lg" block disabled={submitting}>
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              block
+              disabled={submitting}
+              trailingIcon={submitting ? null : ArrowRight}
+            >
               {submitting ? 'Verifying credentials…' : 'Sign in'}
-              {!submitting ? <ArrowRight size={15} style={{ marginLeft: 6 }} /> : null}
             </Button>
           </form>
 
           <div className="demo-box">
             <div className="demo-box__head">
               <span>Demo access</span>
-              <span className="demo-box__hint">Click an account to sign in</span>
             </div>
             <div className="demo-box__options">
               <button type="button" disabled={submitting} onClick={() => useDemo('admin@aegis.example')}>

@@ -107,10 +107,7 @@ export default function Analytics() {
         <ChartCard title="Severity distribution" subtitle="Classified threats in range">
           <SeverityDonut data={severity} height={188} />
           <div className="inline" style={{ justifyContent: 'space-around', gap: 12, marginTop: 8 }}>
-            <div className="stack" style={{ alignItems: 'center', gap: 4 }}>
-              <Ring value={blockRate} label={`${blockRate.toFixed(1)}%`} size={58} stroke={5} />
-              <span className="record-sub">Block rate</span>
-            </div>
+
             <div className="stack" style={{ alignItems: 'center', gap: 4 }}>
               <Ring value={97.8} label="97.8%" size={58} stroke={5} color="#7199C7" />
               <span className="record-sub">Coverage</span>
