@@ -29,7 +29,7 @@ const TOOLTIP = {
   contentStyle: CHART_TOOLTIP_STYLE,
   labelStyle: { color: '#929EAA', fontSize: 11, marginBottom: 4 },
   itemStyle: { fontSize: 11.5 },
-  cursor: { stroke: '#3A4652', strokeDasharray: '3 3' },
+  cursor: { fill: 'transparent', stroke: '#3A4652', strokeDasharray: '3 3' },
 };
 
 function tooltipFormatter(value, name) {
@@ -107,7 +107,11 @@ export function CategoryBarChart({ data, series, height = 230 }) {
           <CartesianGrid stroke="#263039" vertical={false} strokeDasharray="2 4" />
           <XAxis dataKey="label" {...AXIS} tickLine={false} axisLine={false} interval={0} />
           <YAxis {...AXIS} tickLine={false} axisLine={false} tickFormatter={formatCompact} width={48} />
-          <Tooltip {...TOOLTIP} formatter={tooltipFormatter} />
+          <Tooltip
+            {...TOOLTIP}
+            cursor={{ fill: 'rgba(146, 158, 170, 0.08)' }}
+            formatter={tooltipFormatter}
+          />
           {series.map((item) => (
             <Bar
               key={item.key}
