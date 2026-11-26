@@ -36,11 +36,13 @@ export default function WorldMap({ origins = [], legend = true }) {
       .map((origin) => {
         const point = projection(origin.coords);
         if (!point) return null;
+        const ratio = Math.sqrt(origin.count / max);
         return {
           ...origin,
           x: point[0],
           y: point[1],
-          radius: 4.5 + Math.sqrt(origin.count / max) * 10,
+          radius: Math.round((1.3 + ratio * 1.3) * 10) / 10,
+          ring: Math.round((3 + ratio * 6.4) * 10) / 10,
         };
       })
       .filter(Boolean);
@@ -57,45 +59,73 @@ export default function WorldMap({ origins = [], legend = true }) {
       <div className="world-map__canvas">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          className="world-map__svg"
+          className={`world-map__svg ${active ? 'is-inspecting' : ''}`.trim()}
           role="img"
           aria-label="World map of attack origins"
         >
+          <defs>
+            <linearGradient id="mapSweep" x1="0" y1="0" x2="1" y2="0.35">
+              <stop offset="0%" stopColor="#55b9a6" stopOpacity="0" />
+              <stop offset="65%" stopColor="#55b9a6" stopOpacity="0.05" />
+              <stop offset="100%" stopColor="#55b9a6" stopOpacity="0.11" />
+            </linearGradient>
+          </defs>
           <rect width={WIDTH} height={HEIGHT} fill="#151D25" rx="8" />
           <path d={graticule} fill="none" stroke="#263039" strokeWidth="0.4" />
           {paths.map((d, index) => (
             <path key={index} d={d} fill="#1E2832" stroke="#303B46" strokeWidth="0.45" />
           ))}
-          {markers.map((marker) => (
-            <g
-              key={marker.code}
-              className={`world-map__marker ${active?.code === marker.code ? 'is-active' : ''}`}
-              onMouseEnter={() => setActive(marker)}
-              onMouseLeave={() => setActive(null)}
-              onFocus={() => setActive(marker)}
-              onBlur={() => setActive(null)}
-              tabIndex={0}
-              role="button"
-              aria-label={`${marker.name}: ${formatNumber(marker.count)} attacks`}
-            >
-              <circle cx={marker.x} cy={marker.y} r={marker.radius + 9} fill="transparent" />
-              <circle
-                cx={marker.x}
-                cy={marker.y}
-                r={marker.radius + 5}
-                fill={SEVERITY_COLORS[marker.severity]}
-                opacity="0.14"
-              />
-              <circle
-                cx={marker.x}
-                cy={marker.y}
-                r={marker.radius}
-                fill={SEVERITY_COLORS[marker.severity]}
-                stroke="#10151B"
-                strokeWidth="1.2"
-              />
-            </g>
-          ))}
+          <g className="world-map__sweep" aria-hidden="true">
+            <path d="M400,200 L400,0 A200,200 0 0 1 528.6,46.8 Z" fill="url(#mapSweep)" />
+          </g>
+          {markers.map((marker, index) => {
+            const color = SEVERITY_COLORS[marker.severity];
+            return (
+              <g
+                key={`${marker.code}-${marker.count}`}
+                className={`world-map__marker ${active?.code === marker.code ? 'is-active' : ''}`}
+                style={{ animationDelay: `${Math.min(index * 26, 320)}ms` }}
+                onMouseEnter={() => setActive(marker)}
+                onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive(marker)}
+                onBlur={() => setActive(null)}
+                tabIndex={0}
+                role="button"
+                aria-label={`${marker.name}: ${formatNumber(marker.count)} attacks`}
+              >
+                <circle cx={marker.x} cy={marker.y} r={marker.ring + 6} fill="transparent" />
+                {marker.severity === 'Critical' ? (
+                  <circle
+                    className="world-map__pulse"
+                    cx={marker.x}
+                    cy={marker.y}
+                    r={marker.ring}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth="1"
+                    style={{ animationDelay: `${Math.min(index * 180, 900)}ms` }}
+                  />
+                ) : null}
+                <circle
+                  className="world-map__ring"
+                  cx={marker.x}
+                  cy={marker.y}
+                  r={marker.ring}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth={marker.severity === 'Critical' ? 1.4 : 1}
+                  style={{ animationDelay: `${Math.min(index * 140, 1200)}ms` }}
+                />
+                <circle
+                  className="world-map__dot"
+                  cx={marker.x}
+                  cy={marker.y}
+                  r={marker.radius}
+                  fill={color}
+                />
+              </g>
+            );
+          })}
         </svg>
 
         <div className="world-map__tip" aria-live="polite">

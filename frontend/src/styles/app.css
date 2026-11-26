@@ -3077,18 +3077,109 @@
 .world-map__marker {
   cursor: pointer;
   outline: none;
-  transition: opacity 0.15s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-marker-in 0.4s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+  transition: opacity 0.18s ease;
 }
 
 .world-map__marker circle {
   transition: opacity 0.15s ease;
 }
 
-.world-map__marker:hover circle:last-child,
-.world-map__marker:focus-visible circle:last-child,
-.world-map__marker.is-active circle:last-child {
-  stroke: #e8edf2;
-  stroke-width: 1.6;
+.world-map__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+.world-map__ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-breathe 4.2s ease-in-out infinite;
+  transition: stroke-width 0.18s ease;
+  pointer-events: none;
+}
+
+.world-map__pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-pulse 3.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.world-map__sweep {
+  transform-origin: 400px 200px;
+  animation: map-sweep 13s linear infinite;
+  pointer-events: none;
+}
+
+.world-map__svg.is-inspecting .world-map__marker:not(.is-active) {
+  opacity: 0.35;
+}
+
+.world-map__marker:hover .world-map__dot,
+.world-map__marker:focus-visible .world-map__dot,
+.world-map__marker.is-active .world-map__dot {
+  transform: scale(1.8);
+}
+
+.world-map__marker:hover .world-map__ring,
+.world-map__marker:focus-visible .world-map__ring,
+.world-map__marker.is-active .world-map__ring {
+  stroke-width: 2.2;
+}
+
+@keyframes map-marker-in {
+  from {
+    transform: scale(0.35);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes map-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+@keyframes map-pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  75% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes map-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-map__marker,
+  .world-map__ring,
+  .world-map__pulse,
+  .world-map__sweep {
+    animation: none;
+  }
 }
 
 .world-map__tip {
