@@ -63,21 +63,11 @@ export default function WorldMap({ origins = [], legend = true }) {
           role="img"
           aria-label="World map of attack origins"
         >
-          <defs>
-            <linearGradient id="mapSweep" x1="0" y1="0" x2="1" y2="0.35">
-              <stop offset="0%" stopColor="#55b9a6" stopOpacity="0" />
-              <stop offset="65%" stopColor="#55b9a6" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="#55b9a6" stopOpacity="0.11" />
-            </linearGradient>
-          </defs>
           <rect width={WIDTH} height={HEIGHT} fill="#151D25" rx="8" />
           <path d={graticule} fill="none" stroke="#263039" strokeWidth="0.4" />
           {paths.map((d, index) => (
             <path key={index} d={d} fill="#1E2832" stroke="#303B46" strokeWidth="0.45" />
           ))}
-          <g className="world-map__sweep" aria-hidden="true">
-            <path d="M400,200 L400,0 A200,200 0 0 1 528.6,46.8 Z" fill="url(#mapSweep)" />
-          </g>
           {markers.map((marker, index) => {
             const color = SEVERITY_COLORS[marker.severity];
             return (

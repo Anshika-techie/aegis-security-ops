@@ -3108,12 +3108,6 @@
   pointer-events: none;
 }
 
-.world-map__sweep {
-  transform-origin: 400px 200px;
-  animation: map-sweep 13s linear infinite;
-  pointer-events: none;
-}
-
 .world-map__svg.is-inspecting .world-map__marker:not(.is-active) {
   opacity: 0.35;
 }
@@ -3164,20 +3158,10 @@
   }
 }
 
-@keyframes map-sweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .world-map__marker,
   .world-map__ring,
-  .world-map__pulse,
-  .world-map__sweep {
+  .world-map__pulse {
     animation: none;
   }
 }
